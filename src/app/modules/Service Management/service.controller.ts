@@ -14,7 +14,17 @@ const createDoctorService = catchAsync(async (req: Request & { user?: IAuthUser 
         data: result
     })
 })
+const editDoctorService = catchAsync(async (req: Request, res: Response) => {
+    const result = await serviceManagementServices.editDoctorService(req.params.id, req.body);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Service edited successfully',
+        statusCode: 201,
+        data: result
+    })
+})
 
 export const serviceController = {
-    createDoctorService
+    createDoctorService,
+    editDoctorService
 }

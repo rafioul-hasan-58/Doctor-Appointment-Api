@@ -7,7 +7,12 @@ const createDoctorService = async (payload: IService, user: IAuthUser) => {
     return result
 }
 
+const editDoctorService = async (id: string, payload: Partial<IService>) => {
+    const result = await Service.findByIdAndUpdate(id, payload,{new:true});
+    return result
+}
 
 export const serviceManagementServices = {
-    createDoctorService
+    createDoctorService,
+    editDoctorService
 }
