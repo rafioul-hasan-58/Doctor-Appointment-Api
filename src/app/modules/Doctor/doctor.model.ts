@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { IDoctor } from "./doctor.interface";
 
 const doctorSchema = new Schema<IDoctor>({
@@ -19,6 +19,10 @@ const doctorSchema = new Schema<IDoctor>({
     password: {
         type: String,
         required: [true, "Password is required"],
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     specialization: {
         type: String,

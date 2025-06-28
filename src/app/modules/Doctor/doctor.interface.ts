@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export interface IDoctor {
   name: string;
   email: string;
@@ -6,4 +8,5 @@ export interface IDoctor {
   specialization: string;
   hospitalName: string;
   hospitalFloor: number;
+  user: Types.ObjectId;
 }
