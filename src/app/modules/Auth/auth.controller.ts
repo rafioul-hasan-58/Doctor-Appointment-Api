@@ -13,6 +13,15 @@ const registerDoctor = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const registerPatient = catchAsync(async (req: Request, res: Response) => {
+    const result = await authService.registerPatient(req.body);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Patient registered successfully',
+        statusCode: 201,
+        data: result
+    })
+})
 const login = catchAsync(async (req: Request, res: Response) => {
     const user = await authService.login(req.body)
     const { refreshToken, accessToken } = user;
@@ -33,5 +42,6 @@ const login = catchAsync(async (req: Request, res: Response) => {
 })
 export const authController = {
     registerDoctor,
+    registerPatient,
     login
 }

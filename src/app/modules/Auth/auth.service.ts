@@ -8,6 +8,8 @@ import AppError from "../../errors/AppError";
 import httpStatus from 'http-status'
 import config from "../../config";
 import { createToken } from "../../utils/createToken";
+import { IPatient } from "../Patient/patient.interface";
+import { Patient } from "../Patient/patient.model";
 
 const registerDoctor = async (payload: IDoctor) => {
     const { name, email, phone, password } = payload;
@@ -33,6 +35,38 @@ const registerDoctor = async (payload: IDoctor) => {
         return {
             user: createdUser[0],
             doctor: createdDoctor[0]
+        }
+    }
+    catch (err) {
+        await session.abortTransaction();
+        session.endSession();
+        throw err
+    }
+}
+const registerPatient = async (payload: IPatient) => {
+    const { name, email, phone, password } = payload;
+    // hashed password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // prepare userData
+    const userData = {
+        name,
+        email,
+        phone,
+        password: hashedPassword,
+        role: 'patient'
+    }
+    // prepare doctorData
+    const patientData = { ...payload, password: hashedPassword };
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+        const createdUser = await User.create([userData], { session });
+        const createdPatient = await Patient.create([{ ...patientData, user: createdUser[0]._id }], { session });
+        await session.commitTransaction();
+        session.endSession();
+        return {
+            user: createdUser[0],
+            doctor: createdPatient[0]
         }
     }
     catch (err) {
@@ -76,5 +110,6 @@ const login = async (payload: IAuthData) => {
 
 export const authService = {
     registerDoctor,
+    registerPatient,
     login
 }
