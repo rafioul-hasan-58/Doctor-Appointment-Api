@@ -23,8 +23,38 @@ const editDoctorService = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const addDoctorAvailablity = catchAsync(async (req: Request, res: Response) => {
+    const result = await serviceManagementServices.addDoctorAvailability(req.params.id, req.body.availability);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Availablity edited successfully',
+        statusCode: 201,
+        data: result
+    })
+})
+const deleteDoctorService = catchAsync(async (req: Request, res: Response) => {
+    const result = await serviceManagementServices.deleteDoctorService(req.params.id);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Service deleted successfully',
+        statusCode: 201,
+        data: result
+    })
+})
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+    const result = await serviceManagementServices.getAllServices();
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'All services fetched successfully',
+        statusCode: 201,
+        data: result
+    })
+})
 
 export const serviceController = {
     createDoctorService,
-    editDoctorService
+    editDoctorService,
+    deleteDoctorService,
+    getAllServices,
+    addDoctorAvailablity
 }

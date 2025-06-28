@@ -1,4 +1,7 @@
 import { Types } from "mongoose";
+export interface IAvailability {
+    [day: string]: string[];
+}
 
 
 export interface IService {
@@ -7,4 +10,5 @@ export interface IService {
     price: number;
     duration: number; // in minutes
     doctor: Types.ObjectId;
+    availability: IAvailability
 }

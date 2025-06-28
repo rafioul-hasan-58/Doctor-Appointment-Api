@@ -24,6 +24,10 @@ const serviceSchema = new Schema<IService>(
       ref: 'Doctor',
       required: [true, 'Doctor reference is required'],
     },
+    availability: {
+      type: Object,
+      default: {}
+    }
   },
   {
     timestamps: true,
