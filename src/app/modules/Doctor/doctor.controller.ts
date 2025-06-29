@@ -4,7 +4,7 @@ import { doctorServices } from "./doctor.service";
 import httpStatus from 'http-status'
 
 const getAllDoctors = catchAsync(async (req: Request, res: Response) => {
-    const result = await doctorServices.getAllDoctors();
+    const result = await doctorServices.getAllDoctors(req.query);
     res.status(httpStatus.OK).json({
         success: true,
         message: 'Doctors fetched successfully.',

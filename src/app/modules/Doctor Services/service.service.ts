@@ -1,5 +1,6 @@
 import AppError from "../../errors/AppError";
 import { IAuthUser } from "../Auth/auth.interface";
+import { Doctor } from "../Doctor/doctor.model";
 import { IAvailability, IService } from "./service.interface";
 import { Service } from "./service.model";
 import httpStatus from 'http-status'
@@ -8,7 +9,12 @@ const isOverlapOrDuplicate = (existingSlots: string[], newSlots: string[]): bool
     return newSlots.some(slot => existingSlots.includes(slot));
 }
 const addDoctorService = async (payload: IService, user: IAuthUser) => {
-    const result = await Service.create({ ...payload, doctor: user.userId });
+    // Find the doctor by the userId
+    const doctor = await Doctor.findOne({ user: user.userId });
+    if (!doctor) {
+        throw new Error('Doctor profile not found for this user');
+    }
+    const result = await Service.create({ ...payload, doctor: doctor._id });
     return result
 }
 
