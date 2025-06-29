@@ -7,7 +7,7 @@ import httpStatus from 'http-status'
 const isOverlapOrDuplicate = (existingSlots: string[], newSlots: string[]): boolean => {
     return newSlots.some(slot => existingSlots.includes(slot));
 }
-const createDoctorService = async (payload: IService, user: IAuthUser) => {
+const addDoctorService = async (payload: IService, user: IAuthUser) => {
     const result = await Service.create({ ...payload, doctor: user.userId });
     return result
 }
@@ -16,7 +16,7 @@ const editDoctorService = async (id: string, payload: Partial<IService>) => {
     const result = await Service.findByIdAndUpdate(id, payload, { new: true });
     return result
 }
-const addDoctorAvailability = async (
+const setServiceAvailability = async (
     id: string,
     newAvailability: IAvailability
 ) => {
@@ -55,9 +55,9 @@ const getAllServices = async () => {
     return result
 }
 export const serviceManagementServices = {
-    createDoctorService,
+    addDoctorService,
     editDoctorService,
     deleteDoctorService,
     getAllServices,
-    addDoctorAvailability
+    setServiceAvailability
 }

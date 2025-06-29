@@ -76,7 +76,7 @@ const registerPatient = async (payload: IPatient) => {
     }
 }
 
-const login = async (payload: IAuthData) => {
+const loginUser = async (payload: IAuthData) => {
     const user = await User.findOne({ email: payload.email });
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'User not found')
@@ -111,5 +111,5 @@ const login = async (payload: IAuthData) => {
 export const authService = {
     registerDoctor,
     registerPatient,
-    login
+    loginUser
 }

@@ -12,11 +12,12 @@ const app: Application = express()
 app.use(express.json())
 app.use(cookieParser());
 // routes
-app.use('/api', router);
-app.get('/api/doctor/appointments', appointmentController.getAllAppointments);
-app.get('/api/doctor/appointments/:id', appointmentController.getSingleAppointment);
-app.patch('/api/doctor/appointments/:id/status', appointmentController.changeAppointmentStatus);
-app.get('/patient/appointments', auth(['patient']), appointmentController.getPatientAppointments)
+app.use('/', router);
+app.get('/doctor/appointments', appointmentController.getDoctorAppointments);
+app.get('/doctor/appointments/:id', appointmentController.getSingleAppointment);
+app.patch('/doctor/appointments/:id/status',auth(['doctor']), appointmentController.changeAppointmentStatus);
+app.get('/patient/appointments', auth(['patient']), appointmentController.getPatientAppointments);
+
 // testing
 const test = async (req: Request, res: Response) => {
   res.send('Server Is Running!!!')

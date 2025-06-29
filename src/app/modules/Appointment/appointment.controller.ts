@@ -7,20 +7,20 @@ import { IAuthUser } from "../Auth/auth.interface";
 
 
 
-const makeAppointment = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const result = await appointmentServices.makeAppointment(req.body, req.user as IAuthUser);
+const bookAppointment = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const result = await appointmentServices.bookAppointment(req.body, req.user as IAuthUser);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Appointment created successfully',
+        message: 'Appointment booked successfully.',
         statusCode: 201,
         data: result
     })
 })
-const getAllAppointments = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const result = await appointmentServices.getAllAppointmets(req.query);
+const getDoctorAppointments= catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const result = await appointmentServices.getDoctorAppointments(req.query,req.user as IAuthUser);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Appointments retrived successfully',
+        message: 'Appointments fetched successfully.',
         statusCode: 201,
         data: result
     })
@@ -39,7 +39,7 @@ const changeAppointmentStatus = catchAsync(async (req: Request, res: Response) =
     const result = await appointmentServices.changeAppointmentStatus(req.params.id, req.body.status);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Appointment status changed',
+        message: 'Appointment status updated.',
         statusCode: 201,
         data: result
     })
@@ -48,14 +48,14 @@ const getPatientAppointments = catchAsync(async (req: Request & { user?: IAuthUs
     const result = await appointmentServices.getPatientAppointments(req.user as IAuthUser);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Patient appointment retrived',
+        message: 'Your appointments fetched successfully.',
         statusCode: 201,
         data: result
     })
 })
 export const appointmentController = {
-    makeAppointment,
-    getAllAppointments,
+    bookAppointment,
+    getDoctorAppointments,
     getSingleAppointment,
     changeAppointmentStatus,
     getPatientAppointments

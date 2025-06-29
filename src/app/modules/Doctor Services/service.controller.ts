@@ -5,8 +5,8 @@ import { serviceManagementServices } from "./service.service";
 import { IAuthUser } from "../Auth/auth.interface";
 
 
-const createDoctorService = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const result = await serviceManagementServices.createDoctorService(req.body, req.user as IAuthUser);
+const addDoctorService = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const result = await serviceManagementServices.addDoctorService(req.body, req.user as IAuthUser);
     res.status(httpStatus.OK).json({
         success: true,
         message: 'Service added successfully',
@@ -18,16 +18,16 @@ const editDoctorService = catchAsync(async (req: Request, res: Response) => {
     const result = await serviceManagementServices.editDoctorService(req.params.id, req.body);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Service edited successfully',
+        message: 'Service updated successfully',
         statusCode: 201,
         data: result
     })
 })
-const addDoctorAvailablity = catchAsync(async (req: Request, res: Response) => {
-    const result = await serviceManagementServices.addDoctorAvailability(req.params.id, req.body.availability);
+const setServiceAvailability = catchAsync(async (req: Request, res: Response) => {
+    const result = await serviceManagementServices.setServiceAvailability(req.params.id, req.body.availability);
     res.status(httpStatus.OK).json({
         success: true,
-        message: 'Availablity edited successfully',
+        message: 'Availability updated successfully.',
         statusCode: 201,
         data: result
     })
@@ -52,9 +52,9 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
 })
 
 export const serviceController = {
-    createDoctorService,
+    addDoctorService,
     editDoctorService,
     deleteDoctorService,
     getAllServices,
-    addDoctorAvailablity
+    setServiceAvailability
 }

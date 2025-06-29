@@ -4,10 +4,10 @@ import auth from "../../middleware/auth";
 
 const router = Router();
 
-router.post('/', auth(['doctor']), serviceController.createDoctorService);
+router.post('/', auth(['doctor']), serviceController.addDoctorService);
 router.get('/', auth(['doctor']), serviceController.getAllServices);
 router.patch('/:id', auth(['doctor']), serviceController.editDoctorService);
-router.patch('/:id/set-availablity', auth(['doctor']), serviceController.addDoctorAvailablity);
+router.patch('/:id/set-availablity', auth(['doctor']), serviceController.setServiceAvailability);
 router.delete('/:id', auth(['doctor']), serviceController.deleteDoctorService);
 
 export const serviceRouter = router;

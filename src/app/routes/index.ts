@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthRouter } from "../modules/Auth/auth.route";
-import { serviceRouter } from "../modules/Service Management/service.route";
+import { serviceRouter } from "../modules/Doctor Services/service.route";
 import { appointmentRouter } from "../modules/Appointment/appointment.route";
 import { doctorRouter } from "../modules/Doctor/doctor.route";
 

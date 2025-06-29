@@ -22,8 +22,8 @@ const registerPatient = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
-const login = catchAsync(async (req: Request, res: Response) => {
-    const user = await authService.login(req.body)
+const loginUser = catchAsync(async (req: Request, res: Response) => {
+    const user = await authService.loginUser(req.body)
     const { refreshToken, accessToken } = user;
     res.cookie('refreshToken', refreshToken, {
         secure: config.NODE_ENV === 'production',
@@ -34,7 +34,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
     res.status(httpStatus.OK).json({
         success: true,
         statusCode: 200,
-        message: "Login successfully",
+        message: "Login successful",
         data: {
             accessToken
         }
@@ -43,5 +43,5 @@ const login = catchAsync(async (req: Request, res: Response) => {
 export const authController = {
     registerDoctor,
     registerPatient,
-    login
+    loginUser
 }

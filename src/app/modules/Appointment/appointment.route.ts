@@ -5,5 +5,5 @@ import auth from "../../middleware/auth";
 const router=Router();
 
 
-router.post('/',auth(['patient']),appointmentController.makeAppointment);
+router.post('/',auth(['patient']),appointmentController.bookAppointment);
 export const appointmentRouter=router;

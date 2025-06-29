@@ -1,12 +1,12 @@
 import AppError from "../../errors/AppError";
 import { IAuthUser } from "../Auth/auth.interface";
 import { Doctor } from "../Doctor/doctor.model";
-import { Service } from "../Service Management/service.model";
+import { Service } from "../Doctor Services/service.model";
 import { IAppointment } from "./appointment.interface"
 import { Appointment } from "./appointment.model"
 import httpStatus from 'http-status'
 
-const makeAppointment = async (payload: IAppointment, patient: IAuthUser) => {
+const bookAppointment = async (payload: IAppointment, patient: IAuthUser) => {
     const { doctorId, serviceId, selectedDate, timeSlot } = payload;
 
     const service = await Service.findById(serviceId);
@@ -40,7 +40,7 @@ const makeAppointment = async (payload: IAppointment, patient: IAuthUser) => {
     const newAppointment = await Appointment.create({ ...payload, status: 'pending', patientId: patient.userId })
     return newAppointment
 }
-const getAllAppointmets = async (filters?: { status?: string }) => {
+const getDoctorAppointments = async (filters?: { status?: string },user:IAuthUser) => {
     const query: { [key: string]: any } = {};
     if (filters?.status) {
         query.status = filters.status;
@@ -95,8 +95,8 @@ const getPatientAppointments = async (user:IAuthUser) => {
     return result
 }
 export const appointmentServices = {
-    makeAppointment,
-    getAllAppointmets,
+    bookAppointment,
+    getDoctorAppointments,
     getSingleAppointment,
     changeAppointmentStatus,
     getPatientAppointments
