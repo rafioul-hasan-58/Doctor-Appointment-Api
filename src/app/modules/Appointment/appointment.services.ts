@@ -59,7 +59,6 @@ const changeAppointmentStatus = async (id: string, newStatus: string) => {
         cancelled: [],
         completed: []
     };
-    console.log(allowedTransitions['pending']);
     const appointment = await Appointment.findById(id);
     if (!appointment) {
         throw new AppError(httpStatus.NOT_FOUND, 'Appointment not found!');
@@ -91,10 +90,15 @@ const changeAppointmentStatus = async (id: string, newStatus: string) => {
     const result = await Appointment.findByIdAndUpdate(id, { status: newStatus }, { new: true });
     return result;
 };
+const getPatientAppointments = async (user:IAuthUser) => {
+    const result = await Appointment.find({ patientId:user.userId });
+    return result
+}
 export const appointmentServices = {
     makeAppointment,
     getAllAppointmets,
     getSingleAppointment,
-    changeAppointmentStatus
+    changeAppointmentStatus,
+    getPatientAppointments
 
 }
