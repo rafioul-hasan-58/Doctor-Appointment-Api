@@ -29,10 +29,6 @@ const addDoctorAvailability = async (
         const newSlots = newAvailability[day];
         const existingSlots = currentAvailability[day] || [];
 
-        console.log("Day:", day);
-        console.log("Existing Slots:", currentAvailability[day]);
-        console.log("New Slots:", newSlots);
-
         if (isOverlapOrDuplicate(existingSlots, newSlots)) {
             throw new AppError(
                 httpStatus.NOT_ACCEPTABLE,
@@ -41,9 +37,13 @@ const addDoctorAvailability = async (
         }
 
         // Merge new slots into existing ones
+
         currentAvailability[day] = [...existingSlots, ...newSlots]
+        // throw new AppError(httpStatus.NOT_ACCEPTABLE, 'Not addable')
+
     }
     service.availability = currentAvailability;
+    service.markModified('availability');
     const updatedService = await service.save();
     return updatedService
 
