@@ -1,13 +1,12 @@
 import AppError from "../../errors/AppError";
 import { IAuthUser } from "../Auth/auth.interface";
 import { Doctor } from "../Doctor/doctor.model";
+import { isOverlapOrDuplicate } from "./service.function";
 import { IAvailability, IService } from "./service.interface";
 import { Service } from "./service.model";
 import httpStatus from 'http-status'
 
-const isOverlapOrDuplicate = (existingSlots: string[], newSlots: string[]): boolean => {
-    return newSlots.some(slot => existingSlots.includes(slot));
-}
+
 const addDoctorService = async (payload: IService, user: IAuthUser) => {
     // Find the doctor by the userId
     const doctor = await Doctor.findOne({ user: user.userId });

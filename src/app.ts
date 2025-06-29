@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cookieParser());
 // routes
 app.use('/', router);
-app.get('/doctor/appointments', appointmentController.getDoctorAppointments);
+app.get('/doctor/appointments', auth(['doctor']),appointmentController.getDoctorAppointments);
 app.get('/doctor/appointments/:id', appointmentController.getSingleAppointment);
 app.patch('/doctor/appointments/:id/status',auth(['doctor']), appointmentController.changeAppointmentStatus);
 app.get('/patient/appointments', auth(['patient']), appointmentController.getPatientAppointments);

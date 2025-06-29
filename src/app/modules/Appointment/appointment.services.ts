@@ -40,8 +40,10 @@ const bookAppointment = async (payload: IAppointment, patient: IAuthUser) => {
     const newAppointment = await Appointment.create({ ...payload, status: 'pending', patientId: patient.userId })
     return newAppointment
 }
-const getDoctorAppointments = async (filters?: { status?: string },user:IAuthUser) => {
+const getDoctorAppointments = async (user: IAuthUser, filters?: { status?: string }) => {
+    const doctor = await Doctor.findOne({ email: user.email });
     const query: { [key: string]: any } = {};
+    query.doctorId = doctor?._id;
     if (filters?.status) {
         query.status = filters.status;
     }
@@ -90,8 +92,8 @@ const changeAppointmentStatus = async (id: string, newStatus: string) => {
     const result = await Appointment.findByIdAndUpdate(id, { status: newStatus }, { new: true });
     return result;
 };
-const getPatientAppointments = async (user:IAuthUser) => {
-    const result = await Appointment.find({ patientId:user.userId });
+const getPatientAppointments = async (user: IAuthUser) => {
+    const result = await Appointment.find({ patientId: user.userId }).populate('doctorId').populate('serviceId');
     return result
 }
 export const appointmentServices = {

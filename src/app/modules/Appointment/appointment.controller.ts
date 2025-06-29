@@ -17,7 +17,7 @@ const bookAppointment = catchAsync(async (req: Request & { user?: IAuthUser }, r
     })
 })
 const getDoctorAppointments= catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const result = await appointmentServices.getDoctorAppointments(req.query,req.user as IAuthUser);
+    const result = await appointmentServices.getDoctorAppointments(req.user as IAuthUser,req.query);
     res.status(httpStatus.OK).json({
         success: true,
         message: 'Appointments fetched successfully.',
