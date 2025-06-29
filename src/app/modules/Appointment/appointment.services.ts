@@ -40,8 +40,17 @@ const makeAppointment = async (payload: IAppointment, patient: IAuthUser) => {
     const newAppointment = await Appointment.create({ ...payload, status: 'pending', patientId: patient.userId })
     return newAppointment
 }
-
+const getAllAppointmets = async (filters?: { status?: string }) => {
+    const query: { [key: string]: any } = {};
+    if (filters?.status) {
+        query.status = filters.status;
+    }
+    const result = await Appointment.find(query);
+    return result;
+}
 
 export const appointmentServices = {
-    makeAppointment
+    makeAppointment,
+    getAllAppointmets
+
 }

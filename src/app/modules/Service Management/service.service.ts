@@ -37,10 +37,7 @@ const addDoctorAvailability = async (
         }
 
         // Merge new slots into existing ones
-
-        currentAvailability[day] = [...existingSlots, ...newSlots]
-        // throw new AppError(httpStatus.NOT_ACCEPTABLE, 'Not addable')
-
+        currentAvailability[day] = [...existingSlots, ...newSlots];
     }
     service.availability = currentAvailability;
     service.markModified('availability');

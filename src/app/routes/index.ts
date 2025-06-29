@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { AuthRouter } from "../modules/Auth/auth.route";
 import { serviceRouter } from "../modules/Service Management/service.route";
-import { doctorRouter } from "../modules/Doctor/doctor.routes";
 import { appointmentRouter } from "../modules/Appointment/appointment.route";
+import { doctorRouter } from "../modules/Doctor/doctor.route";
 
 
 const router = Router()

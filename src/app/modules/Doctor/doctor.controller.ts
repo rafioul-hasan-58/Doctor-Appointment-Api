@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { doctorServices } from "./doctor.service";
 import httpStatus from 'http-status'
+import { appointmentServices } from "../Appointment/appointment.services";
+import { IAuthUser } from "../Auth/auth.interface";
 
 
 
@@ -25,7 +27,7 @@ const getSingleDoctor = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
-export const doctorController={
+export const doctorController = {
     getAllDoctors,
     getSingleDoctor
 }
