@@ -48,8 +48,10 @@ const bookAppointment = (payload, patient) => __awaiter(void 0, void 0, void 0, 
     const newAppointment = yield appointment_model_1.Appointment.create(Object.assign(Object.assign({}, payload), { status: 'pending', patientId: patient.userId }));
     return newAppointment;
 });
-const getDoctorAppointments = (filters, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getDoctorAppointments = (user, filters) => __awaiter(void 0, void 0, void 0, function* () {
+    const doctor = yield doctor_model_1.Doctor.findOne({ email: user.email });
     const query = {};
+    query.doctorId = doctor === null || doctor === void 0 ? void 0 : doctor._id;
     if (filters === null || filters === void 0 ? void 0 : filters.status) {
         query.status = filters.status;
     }
@@ -91,7 +93,7 @@ const changeAppointmentStatus = (id, newStatus) => __awaiter(void 0, void 0, voi
     return result;
 });
 const getPatientAppointments = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield appointment_model_1.Appointment.find({ patientId: user.userId });
+    const result = yield appointment_model_1.Appointment.find({ patientId: user.userId }).populate('doctorId').populate('serviceId');
     return result;
 });
 exports.appointmentServices = {

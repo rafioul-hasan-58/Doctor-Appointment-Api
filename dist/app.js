@@ -24,7 +24,7 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 // routes
 app.use('/', routes_1.default);
-app.get('/doctor/appointments', appointment_controller_1.appointmentController.getDoctorAppointments);
+app.get('/doctor/appointments', (0, auth_1.default)(['doctor']), appointment_controller_1.appointmentController.getDoctorAppointments);
 app.get('/doctor/appointments/:id', appointment_controller_1.appointmentController.getSingleAppointment);
 app.patch('/doctor/appointments/:id/status', (0, auth_1.default)(['doctor']), appointment_controller_1.appointmentController.changeAppointmentStatus);
 app.get('/patient/appointments', (0, auth_1.default)(['patient']), appointment_controller_1.appointmentController.getPatientAppointments);

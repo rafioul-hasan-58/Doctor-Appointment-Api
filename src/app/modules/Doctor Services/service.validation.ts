@@ -1,12 +1,4 @@
 import { z } from 'zod';
-import { Types } from 'mongoose';
-
-// ObjectId validator
-const objectId = z
-  .string()
-  .refine((val) => Types.ObjectId.isValid(val), {
-    message: 'Invalid ObjectId',
-  });
 
 // Time slot validator: HH:MM-HH:MM
 const timeSlot = z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/, {
@@ -22,6 +14,5 @@ export const serviceValidationSchema = z.object({
   description: z.string().min(1, 'Description is required'),
   price: z.number().nonnegative({ message: 'Price must be positive' }),
   duration: z.number().int().positive({ message: 'Duration must be a positive integer' }),
-  doctor: objectId,
-  availability: availabilitySchema,
+  availability: availabilitySchema.optional(),
 });

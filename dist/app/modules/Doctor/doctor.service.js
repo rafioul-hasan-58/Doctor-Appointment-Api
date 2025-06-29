@@ -36,6 +36,7 @@ const getAllDoctors = (filters) => __awaiter(void 0, void 0, void 0, function* (
         query._id = { $in: matchingDoctorIds };
     }
     const result = yield doctor_model_1.Doctor.find(query);
+    console.log(query);
     return result;
 });
 const getSingleDoctor = (id) => __awaiter(void 0, void 0, void 0, function* () {

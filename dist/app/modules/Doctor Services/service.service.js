@@ -14,13 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceManagementServices = void 0;
 const AppError_1 = __importDefault(require("../../errors/AppError"));
+const doctor_model_1 = require("../Doctor/doctor.model");
+const service_function_1 = require("./service.function");
 const service_model_1 = require("./service.model");
 const http_status_1 = __importDefault(require("http-status"));
-const isOverlapOrDuplicate = (existingSlots, newSlots) => {
-    return newSlots.some(slot => existingSlots.includes(slot));
-};
 const addDoctorService = (payload, user) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield service_model_1.Service.create(Object.assign(Object.assign({}, payload), { doctor: user.userId }));
+    // Find the doctor by the userId
+    const doctor = yield doctor_model_1.Doctor.findOne({ user: user.userId });
+    if (!doctor) {
+        throw new Error('Doctor profile not found for this user');
+    }
+    const result = yield service_model_1.Service.create(Object.assign(Object.assign({}, payload), { doctor: doctor._id }));
     return result;
 });
 const editDoctorService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,7 +39,7 @@ const setServiceAvailability = (id, newAvailability) => __awaiter(void 0, void 0
     for (const day of Object.keys(newAvailability)) {
         const newSlots = newAvailability[day];
         const existingSlots = currentAvailability[day] || [];
-        if (isOverlapOrDuplicate(existingSlots, newSlots)) {
+        if ((0, service_function_1.isOverlapOrDuplicate)(existingSlots, newSlots)) {
             throw new AppError_1.default(http_status_1.default.NOT_ACCEPTABLE, `Time slot(s) already exist for ${day}`);
         }
         // Merge new slots into existing ones

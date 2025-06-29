@@ -26,7 +26,7 @@ const bookAppointment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const getDoctorAppointments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield appointment_services_1.appointmentServices.getDoctorAppointments(req.query, req.user);
+    const result = yield appointment_services_1.appointmentServices.getDoctorAppointments(req.user, req.query);
     res.status(http_status_1.default.OK).json({
         success: true,
         message: 'Appointments fetched successfully.',
