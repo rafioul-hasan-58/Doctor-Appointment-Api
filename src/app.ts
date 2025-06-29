@@ -12,7 +12,9 @@ app.use(express.json())
 app.use(cookieParser());
 // routes
 app.use('/api', router);
-app.use('/api/doctor/appointments', appointmentController.getAllAppointments);
+app.get('/api/doctor/appointments', appointmentController.getAllAppointments);
+app.get('/api/doctor/appointments/:id', appointmentController.getSingleAppointment);
+app.patch('/api/doctor/appointments/:id/status', appointmentController.changeAppointmentStatus);
 // testing
 const test = async (req: Request, res: Response) => {
   res.send('Server Is Running!!!')

@@ -6,5 +6,4 @@ const router=Router();
 
 
 router.post('/',auth(['patient']),appointmentController.makeAppointment);
-
 export const appointmentRouter=router;

@@ -48,9 +48,53 @@ const getAllAppointmets = async (filters?: { status?: string }) => {
     const result = await Appointment.find(query);
     return result;
 }
+const getSingleAppointment = async (id: string) => {
+    const result = await Appointment.findById(id);
+    return result
+}
+const changeAppointmentStatus = async (id: string, newStatus: string) => {
+    const allowedTransitions: Record<string, string[]> = {
+        pending: ['accepted', 'cancelled'],
+        accepted: ['completed'],
+        cancelled: [],
+        completed: []
+    };
+    console.log(allowedTransitions['pending']);
+    const appointment = await Appointment.findById(id);
+    if (!appointment) {
+        throw new AppError(httpStatus.NOT_FOUND, 'Appointment not found!');
+    }
 
+    const currentStatus = appointment.status;
+
+    // 1. If same status → skip
+    if (currentStatus === newStatus) {
+        throw new AppError(httpStatus.BAD_REQUEST, `Appointment is already in '${newStatus}' status.`);
+    }
+
+    // 2. Check valid statuses
+    const validStatuses = ['pending', 'accepted', 'cancelled', 'completed'];
+    if (!validStatuses.includes(newStatus)) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Invalid appointment status');
+    }
+
+    // 3. Validate transition
+    const allowedNextStatuses = allowedTransitions[currentStatus];
+    if (!allowedNextStatuses.includes(newStatus)) {
+        throw new AppError(
+            httpStatus.BAD_REQUEST,
+            `Cannot change status from '${currentStatus}' to '${newStatus}'`
+        );
+    }
+
+    // 4. Update status
+    const result = await Appointment.findByIdAndUpdate(id, { status: newStatus }, { new: true });
+    return result;
+};
 export const appointmentServices = {
     makeAppointment,
-    getAllAppointmets
+    getAllAppointmets,
+    getSingleAppointment,
+    changeAppointmentStatus
 
 }

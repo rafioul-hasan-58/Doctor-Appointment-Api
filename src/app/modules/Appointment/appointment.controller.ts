@@ -25,7 +25,28 @@ const getAllAppointments = catchAsync(async (req: Request & { user?: IAuthUser }
         data: result
     })
 })
+const getSingleAppointment = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.params.id);
+    const result = await appointmentServices.getSingleAppointment(req.params.id);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Appointment retrived successfully',
+        statusCode: 201,
+        data: result
+    })
+})
+const changeAppointmentStatus = catchAsync(async (req: Request, res: Response) => {
+    const result = await appointmentServices.changeAppointmentStatus(req.params.id,req.body.status);
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Appointment status changed',
+        statusCode: 201,
+        data: result
+    })
+})
 export const appointmentController = {
     makeAppointment,
-    getAllAppointments
+    getAllAppointments,
+    getSingleAppointment,
+    changeAppointmentStatus
 }
